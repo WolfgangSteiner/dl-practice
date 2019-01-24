@@ -7,6 +7,7 @@ from nn_layers import Dense, ELU, ReLU, SoftMax
 from nn_model import Model
 from nn_activations import softmax
 from nn_optimizers import GradientDescent, MomentumGradientDescent, Adam
+from sklearn.model_selection import train_test_split
 
 
 class Generator:
@@ -32,15 +33,27 @@ def loss(y,y_hat):
     return -np.sum(y * np.log(y_hat + 1e-12), axis=1, keepdims=True).mean()
 
 
+def print_status(epoch, X_train, y_train, X_val, y_val, update=False):
+    s = "%03d:" % epoch 
+    s += " train loss: %.4f" % loss(y_train, nn.forward(X_train))
+    s += " train acc : %.4f" % accuracy(y_train, nn.forward(X_train))
+    s += " val loss: %.4f" % loss(y_val, nn.forward(X_val))
+    s += " val acc : %.4f" % accuracy(y_val, nn.forward(X_val))
+    end = "\r" if update else "\n"
+    print(s + (100 - len(s))*" ", end=end)
+
 
 if __name__ == "__main__":
     X_train = normalize(X_train)
     X_test = normalize(X_test)
     y_train = one_hot_encode(y_train)
     y_test = one_hot_encode(y_test)
+    X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=0.15)
 
     nn = Model()
     nn.add(Dense(28*28, 10))
+    nn.add(ELU())
+    nn.add(Dense(10,10))
     nn.add(ELU())
     nn.add(Dense(10,10))
     nn.add(SoftMax())
@@ -50,14 +63,19 @@ if __name__ == "__main__":
 
     try:
         for epoch in range(num_epochs):
+            batch = 0
             print("%03d: " % epoch, end="")
             for X_batch, y_batch in gen:
                 y_hat = nn.forward(X_batch)
                 nn.backprop(y_batch)
                 nn.update(optimizer)
-    
-            print("training loss: %.4f" % loss(y_train, nn.forward(X_train)), end=", ")
-            print("training acc : %.4f" % accuracy(y_train, nn.forward(X_train)))
+                if batch % 100 == 0:
+                    print_status(epoch, X_train, y_train, X_val, y_val, update=True)
+                    sys.stdout.flush()
+                batch += 1
+
+            print_status(epoch, X_train, y_train, X_val, y_val)
+
 
         y_hat = nn.forward(X_test)
         print("Accuracy: %.4f" % accuracy(y_test, y_hat))

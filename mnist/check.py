@@ -2,12 +2,14 @@ from nn import *
 import pickle
 import numpy as np
 import cv2
+from utils import *
 
-nn = pickle.load(open("model.pickl", "rb"))
+model = pickle.load(open("model.pickl", "rb"))
+
 
 
 def prediction(X):
-    return np.argmax(nn.forward(normalize(X_test)), axis=1).reshape((-1,1))
+    return np.argmax(model.predict(normalize(X_test)), axis=1).reshape((-1,1))
 
 def put_img(dst, src, pos):
     x,y = pos
@@ -26,7 +28,7 @@ def put_img(dst, src, pos):
 
 y_pred = prediction(X_test)
 
-print("accuracy: ", np.mean(y_test == y_pred))
+print("accuracy: ", accuracy(y_test, y_pred))
 
 nx, ny = 40, 20
 w, h = (28,28)

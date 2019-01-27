@@ -77,12 +77,12 @@ if __name__ == "__main__":
             print_status(epoch, X_train, y_train, X_val, y_val)
 
 
-        y_hat = nn.forward(X_test)
+        y_hat = nn.predict(X_test)
         print("Accuracy: %.4f" % accuracy(y_test, y_hat))
 
     except KeyboardInterrupt:
         nn.save("model.pickl")
-        y_hat = nn.forward(X_test)
+        y_hat = nn.predict(X_test)
         print("Accuracy: %.4f" % accuracy(y_test, y_hat))
 
 

@@ -10,6 +10,11 @@ class Model:
             X = l.forward(X)
         return X
 
+    def predict(self, X):
+        for l in self.layers:
+            X = l.forward(X, inference=True)
+        return X
+    
     def backprop(self, dy):
         for l in reversed(self.layers):
             dy = l.backprop(dy)

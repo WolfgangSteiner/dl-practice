@@ -35,10 +35,10 @@ def loss(y,y_hat):
 
 def print_status(epoch, X_train, y_train, X_val, y_val, update=False):
     s = "%03d:" % epoch 
-    s += " train loss: %.4f" % loss(y_train, nn.forward(X_train))
-    s += " train acc : %.4f" % accuracy(y_train, nn.forward(X_train))
-    s += " val loss: %.4f" % loss(y_val, nn.forward(X_val))
-    s += " val acc : %.4f" % accuracy(y_val, nn.forward(X_val))
+    s += " train loss: %.4f" % loss(y_train, nn.predict(X_train))
+    s += " train acc : %.4f" % accuracy(y_train, nn.predict(X_train))
+    s += " val loss: %.4f" % loss(y_val, nn.predict(X_val))
+    s += " val acc : %.4f" % accuracy(y_val, nn.predict(X_val))
     end = "\r" if update else "\n"
     print(s + (100 - len(s))*" ", end=end)
 

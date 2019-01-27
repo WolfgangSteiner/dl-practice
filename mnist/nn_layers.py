@@ -35,7 +35,7 @@ class Dense(Layer):
         return X@self.w + self.b
         
     def backprop(self, dy):
-        self.dw = self.X.T@dy + self.l2 * self.w
+        self.dw = self.X.T @ dy + self.l2 * np.power(self.w, 2.0)
         self.db = np.mean(dy, axis=0, keepdims=True)
         return dy@self.w.T
 

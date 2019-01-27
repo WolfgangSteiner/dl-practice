@@ -26,7 +26,7 @@ class MomentumGradientDescent(Optimizer):
 
 
 class Adam(Optimizer):
-    def __init__(self, lr, beta1=0.9, beta2=0.999, epsilon=1.0e-8):
+    def __init__(self, lr=0.001, beta1=0.9, beta2=0.999, epsilon=1.0e-7):
         self.lr = lr
         self.beta1 = beta1
         self.beta2 = beta2

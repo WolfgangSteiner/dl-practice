@@ -23,7 +23,8 @@ class Layer:
 
 class Dense(Layer):
     def __init__(self, n_in, n_out, l2=0.0):
-        self.w = np.random.randn(n_in, n_out).astype(np.float32) / n_out
+        var = 2 / (n_in + n_out)
+        self.w = np.sqrt(var) * np.random.randn(n_in, n_out).astype(np.float32)
         self.b = np.zeros((1, n_out), dtype=np.float32)
         self.l2 = l2
         self.w_state = {}

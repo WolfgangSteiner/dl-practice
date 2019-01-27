@@ -8,7 +8,7 @@ from nn_model import Model
 from nn_activations import softmax
 from nn_optimizers import GradientDescent, MomentumGradientDescent, Adam
 from sklearn.model_selection import train_test_split
-
+import sklearn.utils
 
 class Generator:
     def __init__(self, X, y, batch_size=16):
@@ -65,6 +65,7 @@ if __name__ == "__main__":
 
     try:
         for epoch in range(num_epochs):
+            X_train, y_train = sklearn.utils.shuffle(X_train, y_train)
             batch = 0
             print("%03d: " % epoch, end="")
             for X_batch, y_batch in gen:

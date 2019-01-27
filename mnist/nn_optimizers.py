@@ -45,7 +45,7 @@ class Adam(Optimizer):
         state['v'] = v
         state['t'] = t + 1
 
-        m_hat = m / (1 - self.beta1**t)
-        v_hat = v / (1 - self.beta2**t)
+        m_hat = m / (1 - np.power(self.beta1, t))
+        v_hat = v / (1 - np.power(self.beta2, t))
 
         return X - self.lr / (np.sqrt(v_hat) + self.epsilon) * m_hat

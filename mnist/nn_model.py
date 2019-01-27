@@ -33,5 +33,5 @@ class Model:
     def save(self, fn):
         self.clean()
         with open(fn, "wb") as f:
-            pickle.dump(fn, f)
+            pickle.dump(self, f)
 

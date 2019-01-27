@@ -45,10 +45,11 @@ def print_status(epoch, X_train, y_train, X_val, y_val, update=False):
 
 if __name__ == "__main__":
     X_train = normalize(X_train)
+    print(X_train.shape)
     X_test = normalize(X_test)
     y_train = one_hot_encode(y_train)
     y_test = one_hot_encode(y_test)
-    X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=0.15)
+    X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=0.1)
 
     nn = Model()
     nn.add(Dense(28*28, 10))

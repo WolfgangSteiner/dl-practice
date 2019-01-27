@@ -3,7 +3,7 @@ from utils import normalize, one_hot_encode, accuracy
 import numpy as np
 import sys
 import pickle
-from nn_layers import Dense, ELU, ReLU, SoftMax
+from nn_layers import Dense, ELU, ReLU, SoftMax, BatchNormalization
 from nn_model import Model
 from nn_activations import softmax
 from nn_optimizers import GradientDescent, MomentumGradientDescent, Adam
@@ -53,8 +53,10 @@ if __name__ == "__main__":
     nn = Model()
     nn.add(Dense(28*28, 10))
     nn.add(ELU())
+    nn.add(BatchNormalization())
     nn.add(Dense(10,10))
     nn.add(ELU())
+    nn.add(BatchNormalization())
     nn.add(Dense(10,10))
     nn.add(SoftMax())
     num_epochs = 20
